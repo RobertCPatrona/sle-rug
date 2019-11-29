@@ -25,10 +25,10 @@ alias RefGraph = tuple[
 RefGraph resolve(AForm f) = <us, ds, us o ds>
   when Use us := uses(f), Def ds := defs(f);
 
-Use uses(AForm f) {
-  return {}; 
+Def defs(AForm f) {
+  return {<x.name, x.src> | /question(_, AId x, _) := f}; 
 }
 
-Def defs(AForm f) {
-  return {}; 
+Use uses(AForm f) {
+  return {<x.src, x.name> | /ref(AId x) := f}; 
 }
