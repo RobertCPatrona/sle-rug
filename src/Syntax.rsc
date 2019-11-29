@@ -10,53 +10,27 @@ extend lang::std::Id;
 start syntax Form 
   = "form" Id "{" Question* "}"; 
 
-// question, computed question, block, if-then-else, if-then
+// TODO: question, computed question, block, if-then-else, if-then
 syntax Question
-  = Str Id ":" Type
-  | "if" "(" ExprBool ")" "{" Question* "}"
-  | "if" "(" ExprBool ")" "{" Question* "}" "else" "{" Question* "}"
-  | Question "=" ExprInt
+  = 
   ; 
 
-// +, -, *, /, &&, ||, !, >, <, <=, >=, ==, !=, literals (bool, int, str)
-
-syntax ExprInt
+// TODO: +, -, *, /, &&, ||, !, >, <, <=, >=, ==, !=, literals (bool, int, str)
+// Think about disambiguation using priorities and associativity
+// and use C/Java style precedence rules (look it up on the internet)
+syntax Expr 
   = Id \ "true" \ "false" // true/false are reserved keywords.
-  > left ExprInt '+' ExprInt
-  > left ExprInt '-' ExprInt
-  > left ExprInt '*' ExprInt
-  > left ExprInt '/' ExprInt
-  | "(" ExprInt ")"
-  | Int
-  ;
-  
-syntax ExprBool
-  = Id \ "true" \ "false" // true/false are reserved keywords.
-  > left ExprInt '\>' ExprInt
-  > left ExprInt '\<' ExprInt
-  > left ExprInt '\>=' ExprInt
-  > left ExprInt '\<=' ExprInt
-  > left ExprInt '==' ExprInt
-  > left ExprInt '!=' ExprInt
-  > left ExprBool '&&' ExprBool
-  > left ExprBool '||' ExprBool
-  > '!' ExprBool
-  | "(" ExprBool ")"
-  | Bool
   ;
   
 syntax Type
-  = "boolean"
-  | "integer"
-  ;  
+  = ;  
   
-lexical Str 
-  = [\"] ![\"]* [\"]
-  ;
+lexical Str = ;
 
 lexical Int 
-  = [0-9]+;
+  = ;
 
-lexical Bool = 
-  | "true"
-  | "false";
+lexical Bool = ;
+
+
+
