@@ -13,36 +13,24 @@ start syntax Form
 // question, computed question, block, if-then-else, if-then
 syntax Question
   = Str Id ":" Type
-  | "if" "(" ExprBool ")" "{" Question* "}"
-  | "if" "(" ExprBool ")" "{" Question* "}" "else" "{" Question* "}"
-  | Question "=" ExprInt
+  | "if" "(" Expr ")" "{" Question* "}"
+  | "if" "(" Expr ")" "{" Question* "}" "else" "{" Question* "}"
+  | Question "=" Expr
   ; 
 
 // +, -, *, /, &&, ||, !, >, <, <=, >=, ==, !=, literals (bool, int, str)
-
-syntax ExprInt
+syntax Expr 
   = Id \ "true" \ "false" // true/false are reserved keywords.
-  > left ExprInt '+' ExprInt
-  > left ExprInt '-' ExprInt
-  > left ExprInt '*' ExprInt
-  > left ExprInt '/' ExprInt
-  | "(" ExprInt ")"
+  | "-" Expr
+  | '!' Expr
+  | "(" Expr ")"
+  > left (Expr '*' Expr | Expr '/' Expr)
+  > left (Expr '+' Expr | Expr '-' Expr)
+  > left (Expr '\>' Expr | Expr '\<' Expr | Expr '\>=' Expr | Expr '\<=' Expr | Expr '==' Expr | Expr '!=' Expr)
+  > left (Expr '&&' Expr | Expr '||' Expr)
   | Int
-  ;
-  
-syntax ExprBool
-  = Id \ "true" \ "false" // true/false are reserved keywords.
-  > left ExprInt '\>' ExprInt
-  > left ExprInt '\<' ExprInt
-  > left ExprInt '\>=' ExprInt
-  > left ExprInt '\<=' ExprInt
-  > left ExprInt '==' ExprInt
-  > left ExprInt '!=' ExprInt
-  > left ExprBool '&&' ExprBool
-  > left ExprBool '||' ExprBool
-  > '!' ExprBool
-  | "(" ExprBool ")"
   | Bool
+  | Str
   ;
   
 syntax Type
@@ -52,7 +40,7 @@ syntax Type
   
 lexical Str 
   = [\"] ![\"]* [\"]
-  ;
+  ;	
 
 lexical Int 
   = [0-9]+;
@@ -60,3 +48,4 @@ lexical Int
 lexical Bool = 
   | "true"
   | "false";
+
