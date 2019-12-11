@@ -36,6 +36,7 @@ syntax Expr
 syntax Type
   = "boolean"
   | "integer"
+  | "string"
   ;  
   
 lexical Str 
@@ -45,7 +46,7 @@ lexical Str
 lexical Int 
   = [0-9]+;
 
-lexical Bool = 
-  | "true"
+lexical Bool
+  = "true"
   | "false";
 
